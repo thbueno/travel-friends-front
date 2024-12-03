@@ -3,9 +3,11 @@ import {
 	ArrowRight,
 	AtSign,
 	Calendar,
+	Mail,
 	MapPin,
 	Plus,
 	Settings2,
+	User,
 	UserRoundPlus,
 	X,
 } from 'lucide-react';
@@ -13,6 +15,8 @@ import { FormEvent, useState } from 'react';
 export function App() {
 	const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
 	const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false);
+	const [isConfirmTripModalOpen, setIsConfirmTripModalOpen] = useState(false);
+
 	const [emailsToInvite, seteMailsToInvite] = useState([
 		'thiagobueno.s@gmail.com',
 		'thiagobueno.s@gmail.com',
@@ -30,6 +34,14 @@ export function App() {
 
 	function openGuestsModal() {
 		setIsGuestsModalOpen(true);
+	}
+
+	function openConfirmTripModal() {
+		setIsConfirmTripModalOpen(true);
+	}
+
+	function closeConfirmTripModal() {
+		setIsConfirmTripModalOpen(false);
 	}
 
 	function closeGuestsModal() {
@@ -129,7 +141,10 @@ export function App() {
 
 							<div className="w-px h-6 bg-zinc-800" />
 
-							<button className="flex items-center gap-2 bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium hover:bg-lime-400">
+							<button
+								onClick={openConfirmTripModal}
+								className="flex items-center gap-2 bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium hover:bg-lime-400"
+							>
 								Confirmar viagem
 								<ArrowRight className="size-5" />
 							</button>
@@ -213,6 +228,66 @@ export function App() {
 							>
 								Convidar
 								<Plus className="size-5" />
+							</button>
+						</form>
+					</div>
+				</div>
+			)}
+
+			{isConfirmTripModalOpen && (
+				<div className="fixed inset-0 bg-black/60 flex items-center justify-center">
+					<div className="w-[648px] rounded-lg py-5 px-6 shadow-shape bg-zinc-900 space-y-5">
+						{/* TITLE AND DESCRIPTION  */}
+						<div className="space-y-2">
+							<div className="flex items-center justify-between">
+								<h2 className="text-lg font-semibold">
+									Confirmar criação de viagem
+								</h2>
+								<button type="button" onClick={closeConfirmTripModal}>
+									<X className="size-5 text-zinc-400" />
+								</button>
+							</div>
+
+							<p className="text-zinc-400 text-sm">
+								Para concluir a criação da viagem para{' '}
+								<span className="font-semibold text-zinc-100">
+									Bangkok, Tailandia
+								</span>{' '}
+								nas datas de{' '}
+								<span className="font-semibold text-zinc-100">
+									16 a 27 de janeiro de 2024
+								</span>{' '}
+								preencha os campos abaixo:
+							</p>
+						</div>
+
+						{/* FORM MODAL */}
+						<form onSubmit={addNewEmailToInvite} className="space-y-3">
+							<div className="flex items-center gap-2 py-2.5 px-4 bg-zinc-950 border border-zinc-800 rounded-lg">
+								<User className="text-zinc-400 size-5" />
+								<input
+									type="text"
+									name="name"
+									placeholder="Seu Nome completo"
+									className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+								/>
+							</div>
+
+							<div className="flex items-center gap-2 py-2.5 px-4 bg-zinc-950 border border-zinc-800 rounded-lg">
+								<Mail className="text-zinc-400 size-5" />
+								<input
+									type="email"
+									name="email"
+									placeholder="Email pessoal"
+									className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+								/>
+							</div>
+
+							<button
+								type="submit"
+								className="flex items-center justify-center w-full gap-2 bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium hover:bg-lime-400"
+							>
+								Confirmar Criação da Viagem
 							</button>
 						</form>
 					</div>

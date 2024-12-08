@@ -34,13 +34,26 @@ export function TripDetailsPage() {
 			</div>
 
 			<main className="flex gap-16">
-				<div className="flex-1">
+				<div className="flex-1 space-y-6">
+					{/* Atividades e Cadastrar atividade */}
 					<div className=" flex items-center justify-between">
 						<h2 className="text-3xl font-semibold">Atividades</h2>
 						<button className="flex items-center gap-2 bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium hover:bg-lime-400">
 							<Plus className="size-5" />
 							Cadastrar atividade
 						</button>
+					</div>
+
+					{/* Dias */}
+					<div className="space-y-8">
+						<div className="space-y-2.5">
+							<div className="flex items-baseline gap-2">
+								<span className="text-xl text-zinc-300 font-semibold">
+									Dia 17
+								</span>
+								<span className="text-xs text-zinc-500">Sábado</span>
+							</div>
+						</div>
 					</div>
 				</div>
 

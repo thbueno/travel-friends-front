@@ -26,7 +26,7 @@ export function DestinationAndDateHeader() {
 
 				{/* Divider */}
 
-				<Button>
+				<Button variant="secondary">
 					Alterar Local/data
 					<Settings2 className="size-5" />
 				</Button>

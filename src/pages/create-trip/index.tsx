@@ -2,6 +2,7 @@
 import { FormEvent, useState } from 'react';
 import { DateRange } from 'react-day-picker';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../lib/axios';
 import { ConfirmTripModal } from './confirm-trip-modal';
 import { DestinationAndDateStep } from './destination-and-date-step';
 import { InviteGuestModal } from './invite-guest-modal';
@@ -52,18 +53,41 @@ export function CreateTripPage() {
 		setIsGuestsModalOpen(false);
 	}
 
-	function createTrip(event: FormEvent<HTMLFormElement>) {
+	async function createTrip(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		console.log({
+		// console.log({
+		// 	destination,
+		// 	ownerName,
+		// 	ownerEmail,
+		// 	eventStartAndEndDates,
+		// 	emailsToInvite,
+		// });
+
+		if (!destination || !ownerName || !ownerEmail) {
+			return;
+		}
+
+		if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
+			return;
+		}
+
+		if (emailsToInvite.length === 0) {
+			return;
+		}
+
+		const response = await api.post('/trips', {
 			destination,
-			ownerName,
-			ownerEmail,
-			eventStartAndEndDates,
-			emailsToInvite,
+			starts_at: eventStartAndEndDates.from,
+			ends_at: eventStartAndEndDates.to,
+			emails_to_invite: emailsToInvite,
+			owner_name: ownerName,
+			owner_email: ownerEmail,
 		});
 
-		// navigate('/trips/123');
+		const { tripId } = response.data;
+
+		navigate(`/trips/${tripId}`);
 	}
 
 	function addNewEmailToInvite(event: FormEvent<HTMLFormElement>) {

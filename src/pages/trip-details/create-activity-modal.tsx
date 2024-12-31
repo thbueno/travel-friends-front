@@ -1,7 +1,9 @@
 /* eslint-disable react/react-in-jsx-scope */
 
 import { Calendar, Tag, X } from 'lucide-react';
+import { useParams } from 'react-router-dom';
 import { Button } from '../../components/button';
+import { api } from '../../lib/axios';
 
 interface CreateActivityModalProps {
 	closeCreateActivityModal: () => void;
@@ -10,6 +12,23 @@ interface CreateActivityModalProps {
 export function CreateActivityModal({
 	closeCreateActivityModal,
 }: CreateActivityModalProps) {
+	const { tripId } = useParams();
+
+	async function createActivity(event: React.FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+
+		const data = new FormData(event.currentTarget);
+
+		const title = data.get('title')?.toString();
+		const occurs_at = data.get('occurs_at')?.toString();
+
+		await api.post(`/trips/${tripId}/activities`, {
+			title,
+			occurs_at,
+		});
+
+		window.document.location.reload();
+	}
 	return (
 		<div className="fixed inset-0 bg-black/60 flex items-center justify-center">
 			<div className="w-[648px] rounded-lg py-5 px-6 shadow-shape bg-zinc-900 space-y-5">
@@ -28,7 +47,7 @@ export function CreateActivityModal({
 				</div>
 
 				{/* FORM MODAL */}
-				<form className="space-y-3">
+				<form onSubmit={createActivity} className="space-y-3">
 					<div className="flex items-center gap-2 py-2.5 px-4 bg-zinc-950 border border-zinc-800 rounded-lg">
 						<Tag className="text-zinc-400 size-5" />
 						<input
